@@ -18,7 +18,7 @@ from typing import Dict, List, Optional
 
 import ffmpeg
 from loguru import logger
-from PIL import Image
+from PIL import Image, UnidentifiedImageError
 from tqdm import tqdm
 
 # Directories
@@ -97,7 +97,14 @@ def combine_image(base_path: Path, overlay_path: Path, output_path: Path):
     """Combine base image with overlay using PIL."""
 
     base = Image.open(base_path)
-    overlay = Image.open(overlay_path).convert("RGBA")
+    try:
+        overlay = Image.open(overlay_path).convert("RGBA")
+    except UnidentifiedImageError:
+        logger.warning(
+            f"Overlay '{overlay_path}' not found, copying base image with no overlay"
+        )
+        shutil.copy2(base_path, output_path)
+        return
 
     # Preserve EXIF data from base image
     exif = base.info.get("exif")
