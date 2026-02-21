@@ -3,8 +3,21 @@ Combines the main and overlay files from a Snapchat Memories export
 
 This script combines the main files (images or videos) with their respective overlay files you get from a Snapchat Memories export.
 
+The file layout should look something like this:
+```
+/memories
+├── unknown.jpg
+├── unknown.mp4
+├── unknown
+│   ├── D2724CAA-655A-48B8-8568-377A742A4DF4-main.jpg
+│   └── D2724CAA-655A-48B8-8568-377A742A4DF4-overlay.png
+└── unknown-2
+    ├── A2724CAC-8651-4878-8568-367A74154DD1-main.jpg
+    └── A2724CAC-8651-4878-8568-367A74154DD1-overlay.png
+```
+
 # Usage
-1. Extract the .zip file(s) from Snapchat. Each memory with an overlay should have a separate subdirectory containing the base image or video and the overlay.
+1. Extract the .zip file(s) from Snapchat. Each memory with an overlay should have a separate subdirectory containing the base image or video and the overlay (see above).
 1. [Install uv](https://docs.astral.sh/uv/getting-started/installation/), if you have not already.
 1. Open a terminal in the repo directory and run the script with `uv run process_memories.py <path to memories directory>`
 1. All base files that had overlays will be placed in a `base/` folder. All files (those that didn't have overlays _and_ those that did) are combined and placed in `output/`.
